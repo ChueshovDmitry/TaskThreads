@@ -11,12 +11,11 @@ public class Task2 {
     public static void main(String[] args) {
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
-
-        Thread thread = new Thread(new ThreadName());
+        ThreadName thread = new ThreadName();
 
         try {
             for (int i = 0; i <10 ; i++) {
-                executorService.submit(thread);
+            executorService.submit(thread);
             }
         } finally {
             executorService.shutdown();
@@ -30,8 +29,9 @@ class ThreadName implements Runnable{
     public synchronized void outName(){
             System.out.println(Thread.currentThread().getName());
         try {
-            Thread.currentThread().notify();
-            Thread.currentThread().wait();
+            notify(); // пробуждаем спящие потоки, если есть. Если нет то не пробуждаем :) Монитор всеравно занят
+
+            wait(); // текущий поток который занял монитор ложим отдыхать до вызова другим потоком
 
 
         } catch (InterruptedException e) {
